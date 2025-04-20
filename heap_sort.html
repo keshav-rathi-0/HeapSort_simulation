@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Heap Sort</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="landing-page" class="landing-page">
+        <div class="bg-grid"></div>
+        <div class="bg-glow"></div>
+        <div class="bg-glow-2"></div>
+
+
+
+        
+        <div class="container">
+            <div class="navbar">
+                <div class="logo">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 3L21 8.5V15.5L12 21L3 15.5V8.5L12 3Z" stroke="url(#gradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12 15L17 12V6L12 3L7 6V12L12 15Z" stroke="url(#gradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <defs>
+                            <linearGradient id="gradient" x1="3" y1="12" x2="21" y2="12" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#8B5CF6"/>
+                                <stop offset="1" stop-color="#2DD4BF"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    HeapSort
+                </div>
+            </div>
+            
+            <div class="landing-content">
+                <div class="hero-section">
+                    <h1 class="landing-title">Interactive Heap Sort Visualization</h1>
+                    <p class="landing-subtitle">
+                        Master heap sort through an interactive, step-by-step visualization tool designed for modern learning. Explore the algorithm's mechanics, time complexity, and real-world applications.
+                    </p>
+                    
+                    <div class="landing-options">
+                        <div class="option-card" onclick="showSection('simulation-section')">
+                            <div class="option-icon">🔍</div>
+                            <h3 class="option-title">Interactive Simulation</h3>
+                            <p class="option-description">
+                                Watch the heap sort algorithm in action with customizable inputs, speed controls, and detailed step-by-step explanations.
+                            </p>
+                            <button class="btn btn-primary"><span>Start Simulation</span></button>
+                        </div>
+                        
+                        <div class="option-card" onclick="showSection('theory-section')">
+                            <div class="option-icon">📚</div>
+                            <h3 class="option-title">Learn the Theory</h3>
+                            <p class="option-description">
+                                Dive deep into heap sort concepts, time complexity analysis, implementation strategies, and real-world applications.
+                            </p>
+                            <button class="btn btn-secondary"><span>Explore Theory</span></button>
+                        </div>
+                    </div>
+                    
+                    <div class="features">
+                        <div class="feature">
+                            <div class="feature-icon">⚡</div>
+                            <div>Step-by-Step Visualization</div>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">🔄</div>
+                            <div>Max & Min Heap Support</div>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">💻</div>
+                            <div>Interactive Code Examples</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="heap-visualization"></div>
+    </div>
+
+    <div id="simulation-section" class="app-section">
+        <div class="container">
+            <div class="header">
+                <div class="logo">
+                    <span>🔍</span> Heap Sort Visualization
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn nav-btn-outline" onclick="showSection('theory-section')">Learn Theory</button>
+                    <button class="nav-btn nav-btn-outline" onclick="showSection('landing-page')">Back to Home</button>
+                </div>
+            </div>
+            
+            <div class="simulation-container">
+                <div class="setup-panel">
+                    <div class="input-section">
+                        <h3 class="section-title">
+                            <span>📊</span> Input Array
+                        </h3>
+                        
+                        <div class="input-group">
+                            <label for="input-method">Select Input Method:</label>
+                            <select id="input-method">
+                                <option value="manual">Manual Input</option>
+                                <option value="random">Random Array</option>
+                            </select>
+                        </div>
+                        
+                        <div id="manual-input-section">
+                            <div class="input-group">
+                                <label for="array-input">Enter numbers separated by commas:</label>
+                                <input type="text" id="array-input" placeholder="e.g. 12, 5, 3, 8, 7, 10, 6">
+                                <div id="array-input-error" class="error-message">
+                                    Please enter at least 2 valid numbers separated by commas
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="random-input-section" style="display: none;">
+                            <div class="input-group">
+                                <label for="array-size">Array Size (3-15):</label>
+                                <input type="number" id="array-size" min="3" max="15" value="7">
+                                <div id="array-size-error" class="error-message">
+                                    Please enter a value between 3 and 15
+                                </div>
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="min-value">Minimum Value:</label>
+                                <input type="number" id="min-value" value="1">
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="max-value">Maximum Value:</label>
+                                <input type="number" id="max-value" value="100">
+                                <div id="max-value-error" class="error-message">
+                                    Maximum must be greater than minimum
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="options-section">
+                        <h3 class="section-title">
+                            <span>⚙️</span> Options
+                        </h3>
+                        
+                        <div class="input-group">
+                            <label for="heap-type">Heap Type:</label>
+                            <select id="heap-type">
+                                <option value="max">Max Heap</option>
+                                <option value="min">Min Heap</option>
+                            </select>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="animation-speed">Animation Speed: <span id="speed-value">1000ms</span></label>
+                            <input type="range" id="animation-speed" min="100" max="2000" step="100" value="1000">
+                        </div>
+                        
+                        <div class="input-group" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <button id="generate-btn" class="btn btn-primary">Generate Heap</button>
+                            <button id="start-btn" class="btn btn-primary" disabled>Start Sorting</button>
+                            <button id="reset-btn" class="btn btn-outline">Reset</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="visualization-area">
+                    <div class="status-bar">
+                        <span id="status-indicator" class="status-indicator idle"></span>
+                        <span id="step-description" class="status-text">Ready to begin visualization</span>
+                    </div>
+                    
+                    <div class="legend">
+                        <div class="legend-item">
+                            <div class="legend-color normal"></div>
+                            <span>Normal Node</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color root"></div>
+                            <span>Root Node</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color highlight"></div>
+                            <span>Comparing</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color swapping"></div>
+                            <span>Swapping</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color sorted"></div>
+                            <span>Sorted</span>
+                        </div>
+                    </div>
+                    
+                    <div id="array-container" class="array-display">
+                    </div>
+                    
+                    <div class="heap-display">
+                        <div id="binary-tree" class="tree-container">
+                        </div>
+                    </div>
+                    
+                    <div class="controls">
+                        <button id="prev-btn" class="nav-btn nav-btn-outline" disabled>Previous Step</button>
+                        <button id="next-btn" class="nav-btn nav-btn-outline" disabled>Next Step</button>
+                        <button id="play-btn" class="nav-btn nav-btn-primary" disabled>Play All</button>
+                        <button id="pause-btn" class="nav-btn nav-btn-outline" disabled>Pause</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="theory-section" class="app-section">
+        <div class="container">
+            <div class="header">
+                <div class="logo">
+                    <span>📚</span> Heap Sort Theory
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn nav-btn-outline" onclick="showSection('simulation-section')">Try Simulation</button>
+                    <button class="nav-btn nav-btn-outline" onclick="showSection('landing-page')">Back to Home</button>
+                </div>
+            </div>
+            
+            <div class="theory-container">
+                <div class="theory-content">
+                    <div class="tabs">
+                        <div class="tab active" data-tab="theory">Introduction</div>
+                        <div class="tab" data-tab="how-it-works">How It Works</div>
+                        <div class="tab" data-tab="complexity">Time & Space Complexity</div>
+                        <div class="tab" data-tab="code">Pseudocode</div>
+                        <div class="tab" data-tab="applications">Applications</div>
+                    </div>
+                    
+                    <div id="theory" class="tab-content active">
+                        <h2>Introduction to Heap Sort</h2>
+                        <p>
+                            Heap sort is a comparison-based sorting algorithm that uses a binary heap data structure to sort elements. It involves building a max-heap (or min-heap) and repeatedly extracting the root element to form the sorted array.
+                        </p>
+                        
+                        <div class="info-box">
+                            <h4>Heap Structure (1-Based Indexing)</h4>
+                            <ul>
+                                <li><strong>Root:</strong> First element (index 1)</li>
+                                <li><strong>Parent(i):</strong> Returns index ⌊i/2⌋</li>
+                                <li><strong>Left(i):</strong> Returns index 2i</li>
+                                <li><strong>Right(i):</strong> Returns index 2i+1</li>
+                                <li><strong>Max-Heap Property:</strong> Parent ≥ Children</li>
+                            </ul>
+                        </div>
+                        
+                        <p>
+                            Heap sort guarantees <strong>O(n log n)</strong> time complexity in all cases, making it reliable for large datasets. Unlike quicksort, it avoids worst-case O(n²) scenarios.
+                        </p>
+                    </div>
+
+            <div id="how-it-works" class="tab-content">
+                <h2>Heap Sort Process</h2>
+                
+                <h3>Max Heap Workflow (Ascending Order)</h3>
+                <ol>
+                    <li>Build-Max-Heap from unordered array</li>
+                    <li>Swap root (max element) with last element</li>
+                    <li>Reduce heap size by 1</li>
+                    <li>Max-Heapify the root</li>
+                    <li>Repeat until heap size = 1</li>
+                </ol>
+
+                <h3>Min Heap Workflow (Descending Order)</h3>
+                <ol>
+                    <li>Build-Min-Heap from unordered array</li>
+                    <li>Swap root (min element) with last element</li>
+                    <li>Reduce heap size by 1</li>
+                    <li>Min-Heapify the root</li>
+                    <li>Repeat until heap size = 1</li>
+                </ol>
+
+                <div class="info-box">
+                    <h4>Example Comparison</h4>
+                    <p><strong>Input Array:</strong> [4,1,3,2,16,9,10,14,8,7]</p>
+                    
+                    <div style="display: flex; gap: 20px;">
+                        <div>
+                            <strong>Max-Heap Result:</strong>
+                            <ul>
+                                <li>After Build-Max-Heap: [16,14,10,8,7,9,3,2,4,1]</li>
+                                <li>Final Sorted Array: [1,2,3,4,7,8,9,10,14,16]</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <strong>Min-Heap Result:</strong>
+                            <ul>
+                                <li>After Build-Min-Heap: [1,2,3,4,7,9,10,14,8,16]</li>
+                                <li>Final Sorted Array: [16,14,10,9,8,7,4,3,2,1]</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== PSEUDOCODE SECTION ========== -->
+            <div id="code" class="tab-content">
+                <h2>Pseudocode Implementations</h2>
+
+                <div class="code-comparison">
+                    <div class="code-block">
+                        <h3>Max-Heap Version</h3>
+                        <pre>
+HEAPSORT_MAX(A):
+1. BUILD-MAX-HEAP(A)
+2. for i = A.length downto 2:
+3.   swap A[1] ↔ A[i]
+4.   heap_size -= 1
+5.   MAX-HEAPIFY(A, 1)
+
+BUILD-MAX-HEAP(A):
+1. heap_size = A.length
+2. for i = ⌊A.length/2⌋ downto 1:
+3.   MAX-HEAPIFY(A, i)
+
+MAX-HEAPIFY(A, i):
+1. l = LEFT(i), r = RIGHT(i)
+2. largest = i
+3. if l ≤ heap_size and A[l] > A[i]:
+4.   largest = l
+5. if r ≤ heap_size and A[r] > A[largest]:
+6.   largest = r
+7. if largest ≠ i:
+8.   swap A[i] ↔ A[largest]
+9.   MAX-HEAPIFY(A, largest)
+                        </pre>
+                    </div>
+
+                    <div class="code-block">
+                        <h3>Min-Heap Version</h3>
+                        <pre>
+HEAPSORT_MIN(A):
+1. BUILD-MIN-HEAP(A)
+2. for i = A.length downto 2:
+3.   swap A[1] ↔ A[i]
+4.   heap_size -= 1
+5.   MIN-HEAPIFY(A, 1)
+
+BUILD-MIN-HEAP(A):
+1. heap_size = A.length
+2. for i = ⌊A.length/2⌋ downto 1:
+3.   MIN-HEAPIFY(A, i)
+
+MIN-HEAPIFY(A, i):
+1. l = LEFT(i), r = RIGHT(i)
+2. smallest = i
+3. if l ≤ heap_size and A[l] < A[i]:
+4.   smallest = l
+5. if r ≤ heap_size and A[r] < A[smallest]:
+6.   smallest = r
+7. if smallest ≠ i:
+8.   swap A[i] ↔ A[smallest]
+9.   MIN-HEAPIFY(A, smallest)
+                        </pre>
+                    </div>
+                </div>
+            </div>
+
+            <div id="complexity" class="tab-content">
+                <h2>Time & Space Complexity</h2>
+                <table>
+                    <tr>
+                        <th>Operation</th>
+                        <th>Max-Heap</th>
+                        <th>Min-Heap</th>
+                    </tr>
+                    <tr>
+                        <td>Build Heap</td>
+                        <td >O(n)</td>
+                        <td >O(n)</td>
+                    </tr>
+                    <tr>
+                        <td>Heapify</td>
+                        <td >O(log n)</td>
+                        <td >O(log n)</td>
+                    </tr>
+                    <tr>
+                        <td>Total Sort</td>
+                        <td>O(n log n)</td>
+                        <td>O(n log n)</td>
+                    </tr>
+                    <tr>
+                        <td>Space</td>
+                        <td>O(1)</td>
+                        <td>O(1)</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div id="applications" class="tab-content">
+                <h2>Applications</h2>
+                <div style="display: flex; gap: 20px;">
+                    <div class="info-box">
+                        <h4>Max-Heap Uses</h4>
+                        <ul>
+                            <li>Priority Queues (Highest priority first)</li>
+                            <li>Job Scheduling Systems</li>
+                            <li>K-th Largest Element</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box">
+                        <h4>Min-Heap Uses</h4>
+                        <ul>
+                            <li>Dijkstra's Algorithm</li>
+                            <li>Huffman Coding</li>
+                            <li>Merge K Sorted Arrays</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div id="completion-modal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-icon">🎉</div>
+            <h3 class="modal-title">Sorting Completed!</h3>
+            <p class="modal-message">
+                You've successfully completed the heap sort visualization. Would you like to learn more about the theory behind heap sort?
+            </p>
+            <div class="modal-buttons">
+                <button class="btn btn-primary" onclick="showTheoryAfterCompletion()">Learn Theory</button>
+                <button class="btn btn-outline" onclick="hideCompletionModal()">Continue Exploring</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
